@@ -1,0 +1,26 @@
+pipeline{
+  agent {label 'Java'}
+    stages{
+	  stage('checkout'){
+	    steps{
+		  git 'https://github.com/Madhav0987/boxfuse-sample-java-war-hello.git'
+		}
+	  }
+	   stage('test'){
+	     steps{
+		   echo 'unit testing should do by using junit'		 
+		 }
+	   }
+	  stage('building artifact'){
+	    steps{
+		  sh 'mvn clean package'
+		}
+	  }
+	  stage('deplyiong in tomcat'){
+	    steps{
+		 sh 'sudo cp /home/ec2-user/jenkins/workspace/qwqewq/target/hello-1.0.war /home/ec2-user/tomcat/webapps/'
+		 echo "succesfully deplyoed"
+		}
+	  }
+	}
+  }
