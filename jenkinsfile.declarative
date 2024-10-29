@@ -19,7 +19,7 @@ pipeline{
 	  stage('deplyiong in tomcat'){
 	    steps{
 		 sh 'sudo cp /home/ec2-user/jenkins/workspace/qwqewq/target/hello-1.0.war /home/ec2-user/tomcat/webapps/'
-		 echo "succesfully deplyoed in tomcat"
+		 echo "succesfully deplyoed in tomcat 2nd time"
 		}
 	  }
 	}
