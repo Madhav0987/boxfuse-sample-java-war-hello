@@ -22,7 +22,7 @@ pipeline{
 	   stage('checkout'){
 	      agent{label 'Java'}
 		    when{
-		      expression {(branch == 'master' &&  branch == 'Dev')}
+		      expression {return env.branch == 'master' &&  env.branch == 'Dev'}
 		} 
 	      steps{
 		      git 'https://github.com/Madhav0987/boxfuse-sample-java-war-hello.git'
