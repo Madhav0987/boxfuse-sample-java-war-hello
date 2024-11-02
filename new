@@ -22,9 +22,9 @@ pipeline{
 	   stage('checkout'){
 	      agent{label 'Java'}
 		    when{
-			   allof{
+			   anyOf{
 			     branch 'master'
-				 branch 'Dev'
+			      branch 'Dev'
 				 }
 				} 
 	      steps{
@@ -48,8 +48,7 @@ pipeline{
        stage('Building the artifact'){
 	       agent{label 'Java'}
 		     when{
-			   if {(Q07.result == 'success')}
-			   fi
+			   expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
@@ -59,8 +58,7 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when{
-			 if {(Q07.result == 'success')}
-			  fi
+			 expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
 			}
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
