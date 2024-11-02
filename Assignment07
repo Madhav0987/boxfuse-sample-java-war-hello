@@ -22,7 +22,7 @@ pipeline{
 	   stage('checkout'){
 	      agent{label 'Java'}
 		    when{
-			   allOf {
+			   expression {
 			     branch 'master'
 				 branch 'Dev'
 				 }
