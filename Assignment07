@@ -21,7 +21,7 @@ pipeline{
     stages{
 	   stage('checkout'){
 	      agent{label 'Java'}
-		    when {
+		    when{
 			   allof {
 			     branch 'master'
 				 branch 'Dev'
@@ -47,8 +47,8 @@ pipeline{
 	   }
        stage('artifact'){
 	       agent{label 'Java'}
-		     when {
-			   if ((Q07.Test.result == 'success'))
+		     when{
+			   if {Q07.Test.result == 'success'}
                             fi
 			 }
 	        steps{
@@ -58,8 +58,8 @@ pipeline{
 	   } 
 	    stage('Push'){
 		  agent{label 'Master'}
-		    when {
-			 if ((Q07.artifact.result == 'success'))
+		    when{
+			 if {Q07.artifact.result == 'success'}
                            fi
 			}
 		  steps{
