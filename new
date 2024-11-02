@@ -34,6 +34,9 @@ pipeline{
 			 }
 	   stage('Test'){
 	       agent{label 'Master'}
+                 when{
+                    expression {(currentBuild.result == null || currentBuild.result == 'SUCCESS')}
+	           }
 	        steps{
 		    echo "should do with the help of Junit: $Mychoice"
 			echo "the build id ${env.BUILD_ID}"
@@ -45,7 +48,7 @@ pipeline{
        stage('artifact'){
 	       agent{label 'Java'}
 		     when{
-			   expression {(artifact_stage.result == null || artifact_stage.result == 'SUCCESS')}
+			   expression {(currentBuild.result == null || currentBuild.result == 'SUCCESS')}
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
