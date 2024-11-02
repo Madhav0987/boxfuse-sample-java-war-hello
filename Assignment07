@@ -49,6 +49,7 @@ pipeline{
 	       agent{label 'Java'}
 		     when{
 			   if ((Q07.Test.result == 'success'))
+                            fi
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
