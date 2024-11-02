@@ -59,7 +59,8 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when{
-			 if (Q07.Building the artifact.result == 'success')
+			 if ((Q07.Building the artifact.result == 'success'))
+                           fi
 			}
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
