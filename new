@@ -45,7 +45,7 @@ pipeline{
        stage('artifact'){
 	       agent{label 'Java'}
 		     when{
-			   expression {(currentBuild.result == null || currentBuild.result == 'SUCCESS')}
+			   expression {(artifact_stage.result == null || artifact_stage.result == 'SUCCESS')}
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
