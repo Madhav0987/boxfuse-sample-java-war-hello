@@ -37,6 +37,9 @@ pipeline{
 			 }
 	   stage('Test'){
 	       agent{label 'Master'}
+		     when{
+			   expression {return env.Test_result == 'SUCCESS'}
+			 }
 	        steps{
 		    echo "should do with the help of Junit: $Mychoice"
 			echo "the build id ${env.BUILD_ID}"
@@ -45,10 +48,10 @@ pipeline{
 			sh 'echo PASSWORD: $GIT_HUB'
 		 }
 	   }
-       stage('Building the artifact'){
+       stage('artifact'){
 	       agent{label 'Java'}
 		     when{
-			   if {(currentBuild.result == 'success')}
+			   expression {return env.artifact_result == 'SUCCESS'}
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
@@ -58,7 +61,7 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when{
-			 if {(currentBuild.result == 'success')}
+			  expression {return env.Push_result == 'SUCCESS'}
 			}
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
