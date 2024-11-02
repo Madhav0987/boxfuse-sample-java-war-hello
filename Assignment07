@@ -45,7 +45,7 @@ pipeline{
 			sh 'echo PASSWORD: $GIT_HUB'
 		 }
 	   }
-       stage('Building the artifact'){
+       stage('artifact'){
 	       agent{label 'Java'}
 		     when{
 			   if ((Q07.Test.result == 'success'))
@@ -59,7 +59,7 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when{
-			 if ((Q07.Building the artifact.result == 'success'))
+			 if ((Q07.artifact.result == 'success'))
                            fi
 			}
 		  steps{
