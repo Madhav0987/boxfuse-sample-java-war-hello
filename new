@@ -22,8 +22,9 @@ pipeline{
 	   stage('checkout'){
 	      agent{label 'Java'}
 		    when{
-			   allof{
+			   allOf{
 			     branch 'master'
+                             branch 'Dev'
 				 }
 				} 
 	      steps{
