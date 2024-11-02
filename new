@@ -39,7 +39,7 @@ pipeline{
 	       agent{label 'Master'}
 	        steps{
 		    echo "should do with the help of Junit: $Mychoice"
-			echo "the build id ${env.BUILD_ID}"
+			echo "the build id {env.BUILD_ID}"
 			sh 'echo USERNAME:PASSWORD:: $GIT_HUB'
 			sh 'echo USERNAME: $GIT_HUB'
 			sh 'echo PASSWORD: $GIT_HUB'
