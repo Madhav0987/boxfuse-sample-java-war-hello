@@ -28,7 +28,6 @@ pipeline{
 				 }
 				} 
 	      steps{
-		      git 'https://github.com/Madhav0987/boxfuse-sample-java-war-hello.git'
 			echo "this is cloned by: $Mystring"
 			echo "running job ${env.JOB_NAME}"
 			sh 'echo $AWS_ACCESS_KEY'
@@ -48,7 +47,7 @@ pipeline{
        stage('artifact'){
 	       agent{label 'Java'}
 		     when{
-			   expression {( currentBuild.Test.result == 'success' )}
+			   if: {( currentBuild.Test.result == 'success' )}
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
@@ -58,7 +57,7 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when{
-			 expression {( currentBuild.artifact.result == 'success' )} 
+			 if: {( currentBuild.artifact.result == 'success' )} 
 			}
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
