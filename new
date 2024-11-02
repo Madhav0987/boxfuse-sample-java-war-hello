@@ -24,7 +24,6 @@ pipeline{
 		    when{
 			   allof{
 			     branch 'master'
-				 branch 'Dev'
 				 }
 				} 
 	      steps{
