@@ -48,7 +48,7 @@ pipeline{
        stage('artifact'){
 	       agent{label 'Java'}
 		     when{
-			   if {Q07.Test.result == 'success'}
+			   if (Q07.Test.result == 'success')
                             fi
 			 }
 	        steps{
@@ -59,7 +59,7 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when{
-			 if {Q07.artifact.result == 'success'}
+			 if (Q07.artifact.result == 'success')
                            fi
 			}
 		  steps{
