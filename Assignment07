@@ -48,7 +48,7 @@ pipeline{
        stage('artifact'){
 	       agent{label 'Java'}
 		     when {
-			   expression { Q07.Test.result == 'success' }
+			   expression { currentBuild.Test.result == 'success' }
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
@@ -58,7 +58,7 @@ pipeline{
 	    stage('Push'){
 		  agent{label 'Master'}
 		    when {
-			 expression { Q07.artifact.result == 'success' } 
+			 expression { currentBuild.artifact.result == 'success' } 
 			}
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
