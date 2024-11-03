@@ -22,12 +22,13 @@ pipeline{
 	   stage('checkout'){
 	      agent{label 'Java'}
 		    when{
-			   expression {
+			   anyOf{
 			     branch 'master'
-				 branch 'Dev'
+			      branch 'Dev'
 				 }
 				} 
 	      steps{
+		      git 'https://github.com/Madhav0987/boxfuse-sample-java-war-hello.git'
 			echo "this is cloned by: $Mystring"
 			echo "running job ${env.JOB_NAME}"
 			sh 'echo $AWS_ACCESS_KEY'
@@ -35,7 +36,7 @@ pipeline{
 			   }		 
 			 }
 	   stage('Test'){
-	       agent{label 'Master'}
+	       agent{label 'Agent-02'}
 	        steps{
 		    echo "should do with the help of Junit: $Mychoice"
 			echo "the build id ${env.BUILD_ID}"
@@ -44,10 +45,10 @@ pipeline{
 			sh 'echo PASSWORD: $GIT_HUB'
 		 }
 	   }
-       stage('artifact'){
+       stage('Building the artifact'){
 	       agent{label 'Java'}
 		     when{
-			   expression {( currentBuild.result == 'success' )}
+			   expression {( currentBuild.result == null || currentBuild.result == 'SUCCESS' )}
 			 }
 	        steps{
              echo "the build is created: $Myboolean"
@@ -55,9 +56,9 @@ pipeline{
 		  }	   
 	   } 
 	    stage('Push'){
-		  agent{label 'Master'}
+		  agent{label 'Agent-02'}
 		    when{
-			 expression {( currentBuild.result == 'success' )} 
+			 expression {( currentBuild.result == null || currentBuild.result == 'SUCCESS' )}
 			}
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
@@ -65,8 +66,8 @@ pipeline{
 		  }		
 		}    		 
 	}
-	post {
-	 always {
+	post{
+	 always{
 	    emailext body: '''
 			 name :  'charles'
             ph no:  '776567'
