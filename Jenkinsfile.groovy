@@ -1,6 +1,4 @@
-pipeline{
- agent none
-    stages{
+node('Java'){
 	  stage('Checkout') {
         checkout([$class: 'GitSCM',
                   branches: [[name: 'master']],
@@ -35,4 +33,4 @@ pipeline{
         }
     }
 }
-	}
+
