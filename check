@@ -1,0 +1,79 @@
+pipeline{
+ agent none
+   triggers{
+     cron '*/30 * * * *'  
+	 pollSCM '30 * * * *'
+   }
+	parameters {
+       choice choices: ['dev', 'test', 'prod'], name: 'var02'
+       booleanParam defaultValue: 'true', name: 'var03'
+       string defaultValue: 'server', name: 'var01'
+     }
+	environment{
+	  Mystring="${params.var01}"
+	  Mychoice="${params.var02}"
+	  Myboolean="${params.var03}"
+	  
+	  AWS_ACCESS_KEY=credentials('aws_access_key')
+	  AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
+	  GIT_HUB=credentials('git_hub')
+	}
+    stages{
+	   stage('checkout'){
+	      agent{label 'Java'}
+		    when{
+			   anyOf{
+			     branch 'master'
+			      branch 'Dev'
+				 }
+				} 
+	      steps{
+		      git 'https://github.com/Madhav0987/boxfuse-sample-java-war-hello.git'
+			echo "this is cloned by: $Mystring"
+			echo "running job ${env.JOB_NAME}"
+			sh 'echo $AWS_ACCESS_KEY'
+			sh 'echo $AWS_SECRET_ACCESS_KEY'		 			   
+			   }		 
+			 }
+	   stage('Test'){
+	       agent{label 'Master'}
+	        steps{
+		    echo "should do with the help of Junit: $Mychoice"
+			echo "the build id ${env.BUILD_ID}"
+			sh 'echo USERNAME:PASSWORD:: $GIT_HUB'
+			sh 'echo USERNAME: $GIT_HUB'
+			sh 'echo PASSWORD: $GIT_HUB'
+		 }
+	   }
+       stage('Building the artifact'){
+	       agent{label 'Java'}
+		     when{
+			   expression {( currentBuild.result == null || currentBuild.result == 'SUCCESS' )}
+			 }
+	        steps{
+             echo "the build is created: $Myboolean"
+             echo "the machine URL is machone ${env.JENKINS_URL}"			 
+		  }	   
+	   } 
+	    stage('Push'){
+		  agent{label 'Master'}
+		    when{
+			 expression {( currentBuild.result == null || currentBuild.result == 'SUCCESS' )}
+			}
+		  steps{
+		    echo "pushing artifact from jenkins to webapps"
+            echo "the build tag name is ${env.BUILD_TAG}"			
+		  }		
+		}    		 
+	}
+	post{
+	 always{
+	    emailext body: '''
+			 name :  'charles'
+            ph no:  '776567'
+            address: 'city'
+            
+            ''',subject: 'details' , from:'jenkins@example.com', to:'rkrishna14082024@gmail.com'	 
+	 }	
+	}
+}
