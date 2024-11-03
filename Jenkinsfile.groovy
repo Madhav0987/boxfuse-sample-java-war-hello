@@ -26,7 +26,7 @@ node('Java'){
 
     stage('Deploy') {
         try {
-            sh 'sudo cp /home/ec2-user/jenkins/workspace/Assignment_04_02/target/hello-1.0.war /opt/apache-tomcat-9.0.95/webapps'
+            sh 'sudo cp /home/ec2-user/jenkins/workspace/Assignment_04_02/target/hello-1.0.war /home/ec2-user/tomcat/webapps'
             echo 'Successfully deployed'
         } catch (Exception e) {
             error 'Deployment failed!'
