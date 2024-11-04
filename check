@@ -63,7 +63,6 @@ pipeline{
 		  steps{
 		    echo "pushing artifact from jenkins to webapps"
             echo "the build tag name is ${env.BUILD_TAG}"
-            echo "checking webhook"
 		  }		
 		}    		 
 	}
